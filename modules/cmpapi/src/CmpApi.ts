@@ -97,14 +97,25 @@ export class CmpApi {
         CmpApiModel.tcModel.cmpId = CmpApiModel.cmpId;
         CmpApiModel.tcModel.cmpVersion = CmpApiModel.cmpVersion;
 
+        /**
+         * Only overwrite the tcfPolicyVersion if its undefined.
+         */
+        if (!CmpApiModel.tcfPolicyVersion) {
+          CmpApiModel.tcfPolicyVersion = Number(CmpApiModel.tcModel.policyVersion);
+        }
+
       } else {
 
         CmpApiModel.tcModel = TCString.decode(encodedTCString);
 
+        /**
+         * Since we're loading a string, set the policy version based on the string.
+         */
+        CmpApiModel.tcfPolicyVersion = Number(CmpApiModel.tcModel.policyVersion);
+
       }
 
       CmpApiModel.tcModel.isServiceSpecific = this.isServiceSpecific;
-      CmpApiModel.tcfPolicyVersion = Number(CmpApiModel.tcModel.policyVersion);
       CmpApiModel.tcString = encodedTCString;
 
     }
